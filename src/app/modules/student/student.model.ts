@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import { TGuardian, TStudent, TUserName } from "./student.interface";
 
 // User name Schema
@@ -37,3 +37,6 @@ const studentSchema = new Schema<TStudent>({
   profileImg: { type: String },
   isActive: { type: String, enum: ["active", "blocked"], required: true },
 });
+
+// Crating Model
+export const StudentModel = model<TStudent>("Student", studentSchema);
