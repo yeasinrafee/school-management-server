@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import {
-  StudentMethods,
   StudentModel,
   TGuardian,
   TStudent,
@@ -25,7 +24,7 @@ const guardianSchema = new Schema<TGuardian>({
 });
 
 // User Student Schema
-const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
+const studentSchema = new Schema<TStudent, StudentModel>({
   id: { type: String, required: true, unique: true },
   name: { type: userNameSchema, required: true },
   gender: { type: String, enum: ["male", "female"], required: true },
@@ -44,10 +43,17 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   isActive: { type: String, enum: ["active", "blocked"], required: true },
 });
 
-studentSchema.methods.isStudentExists = async function (id: string) {
+// For static methods
+studentSchema.statics.isStudentExists = async function (id: string) {
   const existingStudent = await Student.findOne({ id });
   return existingStudent;
 };
+
+// For instance methods
+// studentSchema.methods.isStudentExists = async function (id: string) {
+//   const existingStudent = await Student.findOne({ id });
+//   return existingStudent;
+// };
 
 // Crating Model
 export const Student = model<TStudent, StudentModel>("Student", studentSchema);

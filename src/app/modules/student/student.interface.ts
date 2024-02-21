@@ -29,12 +29,17 @@ export type TStudent = {
   isActive: "active" | "blocked";
 };
 
-export type StudentMethods = {
+// Crating custom static methods
+export interface StudentModel extends Model<TStudent> {
   isStudentExists(id: string): Promise<TStudent | null>;
-};
+}
 
-export type StudentModel = Model<
-  TStudent,
-  Record<string, never>,
-  StudentMethods
->;
+// Creating custom instance methods
+// export type StudentMethods = {
+//   isStudentExists(id: string): Promise<TStudent | null>;
+// };
+// export type StudentModel = Model<
+//   TStudent,
+//   Record<string, never>,
+//   StudentMethods
+// >;
