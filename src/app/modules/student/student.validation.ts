@@ -31,6 +31,7 @@ const StudentSchema = z.object({
   guardian: GuardianSchema,
   profileImg: z.string().optional(),
   isActive: z.enum(["active", "blocked"]),
+  isDeleted: z.boolean(),
 });
 
 export const StudentValidationSchema = StudentSchema;
