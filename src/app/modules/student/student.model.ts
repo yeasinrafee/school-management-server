@@ -20,7 +20,7 @@ const guardianSchema = new Schema<TGuardian>({
 
 // User Student Schema
 const studentSchema = new Schema<TStudent>({
-  id: { type: String, required: true },
+  id: { type: String, required: true, unique: true },
   name: { type: userNameSchema, required: true },
   gender: { type: String, enum: ["male", "female"], required: true },
   dateOfBirth: { type: String, required: true },
