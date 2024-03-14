@@ -27,6 +27,12 @@ const guardianSchema = new Schema<TGuardian>({
 const studentSchema = new Schema<TStudent, StudentModel>(
   {
     id: { type: String, required: true, unique: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, "User id is required"],
+      unique: true,
+      ref: "User",
+    },
     name: { type: userNameSchema, required: true },
     gender: { type: String, enum: ["male", "female"], required: true },
     dateOfBirth: { type: String, required: true },
@@ -41,7 +47,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     permanentAddress: { type: String, required: true },
     guardian: { type: guardianSchema, required: true },
     profileImg: { type: String },
-    isActive: { type: String, enum: ["active", "blocked"], required: true },
     isDeleted: { type: Boolean, default: false },
   },
   {
@@ -71,12 +76,6 @@ studentSchema.statics.isStudentExists = async function (id: string) {
   const existingStudent = await Student.findOne({ id });
   return existingStudent;
 };
-
-// For instance methods
-// studentSchema.methods.isStudentExists = async function (id: string) {
-//   const existingStudent = await Student.findOne({ id });
-//   return existingStudent;
-// };
 
 // Crating Model
 export const Student = model<TStudent, StudentModel>("Student", studentSchema);

@@ -30,7 +30,6 @@ const StudentSchema = z.object({
   permanentAddress: z.string(),
   guardian: GuardianSchema,
   profileImg: z.string().optional(),
-  isActive: z.enum(["active", "blocked"]),
   isDeleted: z.boolean(),
 });
 
