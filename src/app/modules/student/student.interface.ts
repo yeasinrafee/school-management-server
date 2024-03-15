@@ -32,5 +32,6 @@ export type TStudent = {
 
 // Crating custom static methods
 export interface StudentModel extends Model<TStudent> {
+  // eslint-disable-next-line no-unused-vars
   isStudentExists(id: string): Promise<TStudent | null>;
 }
