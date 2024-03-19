@@ -25,7 +25,9 @@ const getAllClassDetails = catchAsync(async (req, res) => {
 
 const getSingleClassDetails = catchAsync(async (req, res) => {
   const { classId } = req.params;
-  const result = await ClassDetailsServices.getSingleStudentFromDB(classId);
+  const result = await ClassDetailsServices.getSingleClassDetailsFromDB(
+    classId
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -34,8 +36,23 @@ const getSingleClassDetails = catchAsync(async (req, res) => {
   });
 });
 
+const updateClassDetails = catchAsync(async (req, res) => {
+  const { classId } = req.params;
+  const result = await ClassDetailsServices.updateClassDetailsFromDB(
+    classId,
+    req.body
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Class Detail updated successfully",
+    data: result,
+  });
+});
+
 export const ClassDetailsController = {
   createClassDetails,
   getAllClassDetails,
   getSingleClassDetails,
+  updateClassDetails,
 };

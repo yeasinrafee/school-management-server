@@ -11,13 +11,24 @@ const getAllClassDetailsFromDB = async () => {
   return result;
 };
 
-const getSingleStudentFromDB = async (_id: string) => {
+const getSingleClassDetailsFromDB = async (_id: string) => {
   const result = await ClassDetails.findOne({ _id });
+  return result;
+};
+
+const updateClassDetailsFromDB = async (
+  _id: string,
+  payload: Partial<TClassDetails>
+) => {
+  const result = await ClassDetails.findOneAndUpdate({ _id }, payload, {
+    new: true,
+  });
   return result;
 };
 
 export const ClassDetailsServices = {
   createClassDetailsIntoDB,
   getAllClassDetailsFromDB,
-  getSingleStudentFromDB,
+  getSingleClassDetailsFromDB,
+  updateClassDetailsFromDB,
 };

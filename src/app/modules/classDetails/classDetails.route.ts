@@ -12,5 +12,10 @@ router.post(
 );
 router.get("/", ClassDetailsController.getAllClassDetails);
 router.get("/:classId", ClassDetailsController.getSingleClassDetails);
+router.patch(
+  "/:classId",
+  validateRequest(ClassDetailsValidations.updateClassDetailsValidationSchema),
+  ClassDetailsController.updateClassDetails
+);
 
 export const ClassDetailRoutes = router;
