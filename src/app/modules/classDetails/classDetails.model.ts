@@ -20,7 +20,7 @@ const ClassDetailsSchema = new Schema<TClassDetails>({
 
 ClassDetailsSchema.pre("save", async function (next) {
   const isClassExists = await ClassDetails.findOne({
-    year: this.year,
+    sectionNo: this.sectionNo,
     classNo: this.classNo,
   });
   if (isClassExists) {

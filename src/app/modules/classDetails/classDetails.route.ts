@@ -10,5 +10,6 @@ router.post(
   validateRequest(ClassDetailsValidations.createClassDetailsValidationSchema),
   ClassDetailsController.createClassDetails
 );
+router.get("/", ClassDetailsController.getAllClassDetails);
 
 export const ClassDetailRoutes = router;

@@ -6,6 +6,12 @@ const createClassDetailsIntoDB = async (payload: TClassDetails) => {
   return result;
 };
 
+const getAllClassDetailsFromDB = async () => {
+  const result = await ClassDetails.find();
+  return result;
+};
+
 export const ClassDetailsServices = {
   createClassDetailsIntoDB,
+  getAllClassDetailsFromDB,
 };

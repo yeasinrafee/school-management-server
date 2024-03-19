@@ -13,6 +13,17 @@ const createClassDetails = catchAsync(async (req, res) => {
   });
 });
 
+const getAllClassDetails = catchAsync(async (req, res) => {
+  const result = await ClassDetailsServices.getAllClassDetailsFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Class Details retrieved successfully!",
+    data: result,
+  });
+});
+
 export const ClassDetailsController = {
   createClassDetails,
+  getAllClassDetails,
 };
