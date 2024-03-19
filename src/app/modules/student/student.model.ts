@@ -36,7 +36,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     name: { type: userNameSchema, required: true },
     gender: { type: String, enum: ["male", "female"], required: true },
     dateOfBirth: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     contactNo: { type: String, required: true },
     emergencyContactNo: { type: String, required: true },
     bloodGroup: {
@@ -47,6 +47,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     permanentAddress: { type: String, required: true },
     guardian: { type: guardianSchema, required: true },
     profileImg: { type: String },
+    classDetails: {
+      type: Schema.Types.ObjectId,
+      ref: "ClassDetails",
+    },
     isDeleted: { type: Boolean, default: false },
   },
   {
