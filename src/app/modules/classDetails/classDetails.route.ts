@@ -11,5 +11,6 @@ router.post(
   ClassDetailsController.createClassDetails
 );
 router.get("/", ClassDetailsController.getAllClassDetails);
+router.get("/:classId", ClassDetailsController.getSingleClassDetails);
 
 export const ClassDetailRoutes = router;
