@@ -12,6 +12,21 @@ const ClassDetailsSchema = new Schema<TClassDetails>({
     enum: ["A", "B", "C"],
     required: true,
   },
+  year: {
+    type: String,
+    required: true,
+  },
+});
+
+ClassDetailsSchema.pre("save", async function (next) {
+  const isClassExists = await ClassDetails.findOne({
+    year: this.year,
+    classNo: this.classNo,
+  });
+  if (isClassExists) {
+    throw new Error("Class is already exists!");
+  }
+  next();
 });
 
 export const ClassDetails = model<TClassDetails>(

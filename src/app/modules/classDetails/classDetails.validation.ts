@@ -15,6 +15,7 @@ const createClassDetailsValidationSchema = z.object({
       "10",
     ]),
     sectionNo: z.enum(["A", "B", "C"]),
+    year: z.string(),
   }),
 });
 
