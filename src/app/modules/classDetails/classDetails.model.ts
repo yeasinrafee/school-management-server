@@ -22,6 +22,7 @@ ClassDetailsSchema.pre("save", async function (next) {
   const isClassExists = await ClassDetails.findOne({
     sectionNo: this.sectionNo,
     classNo: this.classNo,
+    year: this.year,
   });
   if (isClassExists) {
     throw new Error("Class is already exists!");
