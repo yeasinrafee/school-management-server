@@ -49,7 +49,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     profileImg: { type: String },
     classDetails: {
       type: Schema.Types.ObjectId,
-      ref: "ClassDetails",
+      ref: "ClassDetail",
     },
     isDeleted: { type: Boolean, default: false },
   },
