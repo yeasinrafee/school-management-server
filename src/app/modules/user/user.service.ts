@@ -26,14 +26,13 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   const classDetail = await ClassDetails.findById(payload.classDetails);
 
   const session = await mongoose.startSession();
-
   try {
     session.startTransaction();
     // set manually generated id
     userData.id = await generateStudentId(classDetail);
 
     // create a user (transaction-1)
-    const newUser = await User.create([userData], { session }); // static method
+    const newUser = await User.create([userData], { session });
     // create a student
     if (!newUser.length) {
       throw new AppError(httpStatus.BAD_REQUEST, "Failed to create user!");
