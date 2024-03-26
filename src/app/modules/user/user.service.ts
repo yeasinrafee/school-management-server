@@ -10,9 +10,9 @@ import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
-  //   if (await Student.isStudentExists(studentData.id)) {
-  //     throw new Error("Student already exists!");
-  //   }
+  if (await Student.isStudentExists(payload.id)) {
+    throw new Error("Student already exists!");
+  }
 
   // create a user object
   const userData: Partial<TUser> = {};
