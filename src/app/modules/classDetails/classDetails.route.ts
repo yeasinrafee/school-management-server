@@ -7,7 +7,7 @@ const router = Router();
 
 router.post(
   "/create-class-details",
-  validateRequest(ClassDetailsValidations.createClassDetailsValidationSchema),
+  // validateRequest(ClassDetailsValidations.createClassDetailsValidationSchema),
   ClassDetailsController.createClassDetails
 );
 router.get("/", ClassDetailsController.getAllClassDetails);
