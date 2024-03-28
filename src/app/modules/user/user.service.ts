@@ -25,6 +25,10 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
 
   const classDetail = await ClassDetails.findById(payload.classDetails);
 
+  if (!classDetail) {
+    throw new AppError(400, "Class Details not found");
+  }
+
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
