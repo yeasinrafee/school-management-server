@@ -14,6 +14,18 @@ const createStudent = catchAsync(async (req, res) => {
   });
 });
 
+const createTeacher = catchAsync(async (req, res) => {
+  const { password, teacher: teacherData } = req.body;
+  const result = await UserServices.createTeacherIntoDB(password, teacherData);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Teacher created successfully",
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createStudent,
+  createTeacher,
 };

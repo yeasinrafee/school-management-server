@@ -65,3 +65,36 @@ export const generateStudentId = async (payload: TClassDetails) => {
   }${payload.year.substring(2)}${incrementedId}`;
   return incrementedId;
 };
+
+const findLastTeacher = async () => {
+  const lastTeacher = await User.findOne(
+    {
+      role: "teacher",
+    },
+    {
+      id: 1,
+      _id: 0,
+    }
+  )
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
+
+  return lastTeacher?.id ? lastTeacher.id.substring(2) : undefined;
+};
+
+export const generateTeacherId = async () => {
+  let currentId = (0).toString(); // 0000 by default
+  const lastTeacherId = await findLastTeacher();
+
+  if (lastTeacherId) {
+    currentId = lastTeacherId.substring(2);
+  }
+
+  let incrementId = (Number(currentId) + 1).toString().padStart(4, "0");
+
+  incrementId = `T-${incrementId}`;
+
+  return incrementId;
+};

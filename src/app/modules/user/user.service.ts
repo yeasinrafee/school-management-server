@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import config from "../../config";
 import { ClassDetails } from "../classDetails/classDetails.model";
@@ -5,9 +6,11 @@ import { TStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { TUser } from "./user.interface";
 import { User } from "./user.model";
-import { generateStudentId } from "./user.utils";
+import { generateStudentId, generateTeacherId } from "./user.utils";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import { TTeacher } from "../teacher/teacher.interface";
+import { Teacher } from "../teacher/teacher.model";
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   if (await Student.isStudentExists(payload.id)) {
@@ -65,6 +68,51 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   }
 };
 
+const createTeacherIntoDB = async (password: string, payload: TTeacher) => {
+  //create a user object
+  const userData: Partial<TUser> = {};
+
+  // if password is not given, use default password
+  userData.password = password || (config.default_password as string);
+
+  //set teacher role
+  userData.role = "teacher";
+
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    //set generated id
+    userData.id = await generateTeacherId();
+
+    // create a user (transaction-1)
+    const newUser = await User.create([userData], { session }); // Built in static method
+
+    //create a teacher
+    if (!newUser.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create user");
+    }
+    // set id, _id as user
+    payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; // reference id
+
+    // Create a teacher (transaction-2)
+    const newTeacher = await Teacher.create([payload], { session });
+
+    if (!newTeacher.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create Teacher");
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+    return newTeacher;
+  } catch (err: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(err);
+  }
+};
+
 export const UserServices = {
   createStudentIntoDB,
+  createTeacherIntoDB,
 };
